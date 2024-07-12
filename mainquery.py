@@ -149,6 +149,13 @@ def process_each_sheet(uploaded_file):
 #             mismatched_rows.append(index)
 #     return mismatched_rows
 
+def prevent_scientific_notation(df):
+    if 'ACCOUNTNUMBER' in df.columns:
+            df['account_numbers'] = df['account_numbers'].apply(
+        lambda x: int(x) if pd.notna(x) else None)
+    df['account_numbers'] = df['account_numbers'].astype(str).str.zfill(19)
+    return df
+
 def main():
     st.title("Automation Selective tool")
     st.markdown("""
