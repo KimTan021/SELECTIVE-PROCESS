@@ -151,9 +151,8 @@ def process_each_sheet(uploaded_file):
 
 def prevent_scientific_notation(df):
     if 'ACCOUNTNUMBER' in df.columns:
-            df['account_numbers'] = df['account_numbers'].apply(
-        lambda x: int(x) if pd.notna(x) else None)
-    df['account_numbers'] = df['account_numbers'].astype(str).str.zfill(19)
+            df['ACCOUNTNUMBER'] = df['ACCOUNTNUMBER'].apply(
+        lambda x: str(x) if pd.notna(x) else None)
     return df
 
 def main():

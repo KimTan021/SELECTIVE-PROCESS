@@ -61,6 +61,12 @@ def query_database(mapped_data):
             return result
     finally:
         connection.close()
+        
+def prevent_scientific_notation(df):
+    if 'ACCOUNTNUMBER' in df.columns:
+        df['ACCOUNTNUMBER'] = df['ACCOUNTNUMBER'].apply(
+            lambda x: str(x) if pd.notna(x) else None)
+    return df
 
 def process_uploaded_file(df, header_mapping):
     valid_data = []
@@ -87,5 +93,8 @@ def process_uploaded_file(df, header_mapping):
 
     valid_df = pd.DataFrame(valid_data)
     invalid_df = pd.DataFrame(invalid_data)
+    
+    valid_df = prevent_scientific_notation(valid_df)
+    invalid_df = prevent_scientific_notation(invalid_df)
 
     return valid_df, invalid_df
